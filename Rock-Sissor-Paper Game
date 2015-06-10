@@ -1,0 +1,207 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Form extends JFrame implements ActionListener{
+	
+	JPanel pn1, pn2;
+	static JTextField tf1, tf2, tf3, tf4;
+	JButton btnRock, btnPaper, btnSissor, btnExit;
+	static JLabel userImg, comImg, vsImg, user2Img, com2Img;
+	static List list;
+	static String user="";
+	static String com="";
+	static int mix=0;
+	static int win=0, lose=0, mu=0;
+	
+	public Form(){// 겉 창 
+		setTitle("가위/바위/보");
+		this.setLayout(null);
+		this.setSize(500,400);//창크기
+		
+		
+		//판넬 객체 생성
+		pn1=new JPanel();
+		pn2=new JPanel();
+		
+		pn1.setBounds(0,0,500,100);
+		pn2.setBounds(0,100,500,400);
+		
+		pn1.setLayout(null);
+		pn2.setLayout(null);
+		
+		
+		
+		//텍스트 필드 객체 생성
+		tf1=new JTextField(20);
+		tf1.setBounds(40,20,400,25);
+		
+		tf2=new JTextField(20);
+		tf2.setBounds(40,44,400,25);
+		
+		tf3=new JTextField(20);
+		tf3.setBounds(40,66,400,25);
+		
+		tf4=new JTextField(20);
+		tf4.setBounds(145,190,180,25);
+		
+		tf1.setEditable(false);
+		tf1.setHorizontalAlignment(JTextField.LEFT);
+		tf1.setBackground(Color.WHITE);
+		
+		tf2.setEditable(false);
+		tf2.setHorizontalAlignment(JTextField.LEFT);
+		tf2.setBackground(Color.WHITE);
+		
+		tf3.setEditable(false);
+		tf3.setHorizontalAlignment(JTextField.LEFT);
+		tf3.setBackground(Color.WHITE);
+		
+		tf4.setEditable(false);
+		tf4.setHorizontalAlignment(JTextField.CENTER);
+		tf4.setBackground(Color.WHITE);
+		
+		
+		//버튼 객체 생성
+		btnRock=new JButton("바위");
+		btnSissor=new JButton("가위");
+		btnPaper=new JButton("보");
+		btnExit=new JButton("종료");
+		
+		//list=new List();//이부분이 있어야 가위바위보 버튼을 누르면 이미지가 바뀜
+		comImg=new JLabel(new ImageIcon("img/4.jpg"));
+		userImg=new JLabel(new ImageIcon("img/6.jpg"));
+		vsImg=new JLabel(new ImageIcon("img/9.jpg"));
+		com2Img=new JLabel(new ImageIcon("img/8.jpg"));
+		user2Img=new JLabel(new ImageIcon("img/7.jpg"));
+		
+		com2Img.setBounds(320,-24,70,70);
+		user2Img.setBounds(85,-24,70,70);
+		vsImg.setBounds(210,80,50,50);
+		btnSissor.setBounds(45,220,70,30);//가위
+		btnRock.setBounds(150,220,70,30);//바위
+		btnPaper.setBounds(255,220,70,30);//보
+		btnExit.setBounds(360,220,70,30);
+		comImg.setBounds(-30,-40,300,300);
+		userImg.setBounds(200,-40,300,300);
+		
+		
+		btnRock.addActionListener(this);
+		btnPaper.addActionListener(this);
+		btnSissor.addActionListener(this);
+		btnExit.addActionListener(this);
+		
+		
+		pn2.add(com2Img);
+		pn2.add(user2Img);
+		pn2.add(vsImg);
+		pn1.add(tf1);
+		pn1.add(tf2);
+		pn1.add(tf3);
+		pn2.add(tf4);
+		pn2.add(btnRock);
+		pn2.add(btnSissor);
+		pn2.add(btnPaper);
+		pn2.add(btnExit);
+		pn2.add(comImg);
+		pn2.add(userImg);
+		
+		this.add(pn1);
+		this.add(pn2);
+
+		this.setVisible(true);
+	}
+		public void startMix(){//랜덤으로 가위바위보를 구하는 메서드
+		 mix = (int)(Math.random()*3);
+		  switch(mix){
+		  case 0: com = "가위"; break; 
+		  case 1 : com = "바위"; break;
+		  default : com = "보"; break;
+		  }
+	}
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == btnRock){
+				   tf1.setText("바위를 내셨군요."); 
+				   getFight(com,"바위");
+				   startMix();
+				  }
+				  else if(e.getSource() == btnPaper){
+				   tf1.setText("보를 내셨군요.");
+				   getFight(com,"보");
+				   startMix();
+				  }
+				  else if(e.getSource() == btnSissor){
+				   tf1.setText("가위를 내셨군요.");
+				   getFight(com,"가위");
+				   startMix();
+				  }
+				  else if(e.getSource() == btnExit){
+				   System.exit(0);
+				  }
+			}
+		 static void getFight(String com, String user){
+			  if(user.equals("바위")){
+			   comImg.setIcon(new ImageIcon("img/5.jpg"));
+			   if(com.equals("바위")){
+			    userImg.setIcon(new ImageIcon("img/5.jpg"));
+			    tf2.setText("컴퓨터는 바위를 냈습니다.");
+			    tf3.setText("비겼습니다.");mu++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			   else if(com.equals("보")){
+			    userImg.setIcon(new ImageIcon("img/6.jpg"));
+			    tf2.setText("컴퓨터는 보를 냈습니다.");
+			    tf3.setText("졌습니다.");lose++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			   else{
+			    userImg.setIcon(new ImageIcon("img/4.jpg"));
+			    tf2.setText("컴퓨터는 가위를 냈습니다.");
+			    tf3.setText("이겼습니다.");win++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			  }
+			  if(user.equals("가위")){
+			   comImg.setIcon(new ImageIcon("img/4.jpg"));
+			   if(com.equals("바위")){
+			    userImg.setIcon(new ImageIcon("img/5.jpg"));
+			    tf2.setText("컴퓨터는 바위를 냈습니다.");
+			    tf3.setText("졌습니다.");lose++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }else if(com.equals("보")){
+			    userImg.setIcon(new ImageIcon("img/6.jpg"));
+			    tf2.setText("컴퓨터는 보를 냈습니다.");
+			    tf3.setText("이겼습니다.");win++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }else{
+			    userImg.setIcon(new ImageIcon("img/4.jpg"));
+			    tf2.setText("컴퓨터는 가위를 냈습니다.");
+			    tf3.setText("비겼습니다.");mu++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			  }
+			  if(user.equals("보")){
+			   comImg.setIcon(new ImageIcon("img/6.jpg"));
+			   if(com.equals("바위")){
+			    userImg.setIcon(new ImageIcon("img/5.jpg"));
+			    tf2.setText("컴퓨터는 바위를 냈습니다.");
+			    tf3.setText("이겼습니다.");win++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			   else if(com.equals("보")){
+			    userImg.setIcon(new ImageIcon("img/6.jpg"));
+			    tf2.setText("컴퓨터는 보를 냈습니다.");
+			    tf3.setText("비겼습니다.");mu++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			   else{
+			    userImg.setIcon(new ImageIcon("img/4.jpg"));
+			    tf2.setText("컴퓨터는 가위를 냈습니다.");
+			    tf3.setText("졌습니다.");lose++;
+			    tf4.setText("승: "+win+"패: "+lose+"무: "+mu);
+			   }
+			  }
+			  }
+}

@@ -1,0 +1,9 @@
+import java.awt.Color;
+
+public class Main {
+	public static void main(String[] args){
+		
+		Form f=new Form();//f라는 인스턴스에 CalcForm이라는 객체가 만들어져 대입
+	}
+
+}
